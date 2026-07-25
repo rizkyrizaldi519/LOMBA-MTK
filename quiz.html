@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mainkan Duel — Lomba Matematika</title>
+<meta name="description" content="Mainkan demo duel matematika 2 pemain — siapa cepat dan benar dia menang.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/quiz.css">
+</head>
+<body>
+<div id="page-loader"><div class="loader-mark">MENYIAPKAN ARENA<div class="loader-bar"><span></span></div></div></div>
+
+<header class="navbar scrolled" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand"><span class="brand-mark">LM</span> Lomba Matematika</a>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="Ganti tema">🌙</button>
+      <a href="index.html" class="btn btn-ghost btn-sm">← Kembali</a>
+    </div>
+  </div>
+</header>
+
+<div class="quiz-shell">
+
+  <!-- ===== SETUP ===== -->
+  <div class="setup-card" id="setupCard">
+    <span class="eyebrow" style="display:flex; justify-content:center; width:fit-content; margin:0 auto 16px;"><span class="dot"></span> Mode Demo · 2 Pemain</span>
+    <h1>Siapkan Duelmu</h1>
+    <p class="lede">2 pemain serentak di perangkat yang sama — siapa cepat &amp; benar dia menang.</p>
+
+    <div class="setup-row">
+      <label>Nama Pemain</label>
+      <div class="name-inputs">
+        <input type="text" id="p1Name" placeholder="Pemain 1 (pakai keyboard)" maxlength="16">
+        <input type="text" id="p2Name" placeholder="Pemain 2 (klik tombol)" maxlength="16">
+      </div>
+    </div>
+
+    <div class="setup-row">
+      <label>Tingkat Kesulitan</label>
+      <div class="level-options" id="levelOptions">
+        <div class="level-opt selected" data-level="sd"><strong>SD</strong><span>Angka kecil, ×÷ mudah</span></div>
+        <div class="level-opt" data-level="smp"><strong>SMP</strong><span>Hingga 100, semua operasi</span></div>
+        <div class="level-opt" data-level="sma"><strong>SMA</strong><span>Bilangan negatif &amp; besar</span></div>
+      </div>
+    </div>
+
+    <div class="setup-row">
+      <label>Jumlah Soal: <span class="qty-badge" id="qtyBadge">10</span></label>
+      <div class="qty-row">
+        <input type="range" id="qtyRange" min="5" max="20" step="5" value="10">
+      </div>
+    </div>
+
+    <button class="btn btn-primary setup-cta" id="startBtn">🚀 Mulai Lomba</button>
+  </div>
+
+  <!-- ===== GAME ===== -->
+  <div class="game-shell" id="gameShell">
+    <div class="game-hud">
+      <span class="hud-progress" id="hudProgress">Soal 1 / 10</span>
+      <div class="hud-bar"><div class="hud-bar-fill" id="hudBarFill"></div></div>
+      <button class="btn btn-ghost btn-sm" id="quitBtn">Selesai</button>
+    </div>
+
+    <div class="question-banner">
+      <span class="label">Soal Saat Ini</span>
+      <div class="expr" id="questionExpr">? + ? = ?</div>
+    </div>
+
+    <div class="players-grid">
+      <div class="player-panel p1" id="p1Panel">
+        <div class="pp-head">
+          <div><div class="pp-name" id="p1DisplayName">Pemain 1</div><div class="pp-hint">⌨️ Ketik &amp; tekan Enter</div></div>
+          <div class="pp-score" id="p1Score" style="color:var(--cyan);">0</div>
+        </div>
+        <div class="pp-display" id="p1Input">&nbsp;</div>
+        <div class="pp-pad" data-player="1">
+          <button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button>
+          <button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button>
+          <button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button>
+          <button data-key="±">±</button><button data-key="0">0</button><button data-key="⌫">⌫</button>
+          <button class="pp-submit" data-key="enter">✓ Jawab</button>
+        </div>
+      </div>
+
+      <div class="player-panel p2" id="p2Panel">
+        <div class="pp-head">
+          <div><div class="pp-name" id="p2DisplayName">Pemain 2</div><div class="pp-hint">🖱️ Klik tombol</div></div>
+          <div class="pp-score" id="p2Score" style="color:var(--coral);">0</div>
+        </div>
+        <div class="pp-display" id="p2Input">&nbsp;</div>
+        <div class="pp-pad" data-player="2">
+          <button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button>
+          <button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button>
+          <button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button>
+          <button data-key="±">±</button><button data-key="0">0</button><button data-key="⌫">⌫</button>
+          <button class="pp-submit" data-key="enter">✓ Jawab</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="history-panel">
+      <h3>Riwayat Per Soal</h3>
+      <div id="historyList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RESULT MODAL ===== -->
+<div class="result-overlay" id="resultOverlay">
+  <div class="result-card">
+    <div class="result-trophy" id="resultTrophy">🏆</div>
+    <h2 id="resultTitle">Pemain 1 Menang!</h2>
+    <p class="section-sub" id="resultSub">Duel selesai — berikut hasil akhirnya.</p>
+    <div class="final-scores">
+      <div><strong id="finalP1" style="color:var(--cyan);">0</strong><span id="finalP1Name">Pemain 1</span></div>
+      <div><strong id="finalP2" style="color:var(--coral);">0</strong><span id="finalP2Name">Pemain 2</span></div>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-ghost" id="playAgainBtn">🔄 Main Lagi</button>
+      <a href="index.html" class="btn btn-primary">Kembali ke Beranda</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/quiz.js"></script>
+</body>
+</html>
